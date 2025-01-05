@@ -1,9 +1,8 @@
-what is NFS
-
+# what is NFS
 The Network File System (NFS) is a mechanism for storing files on a network. It is a distributed file system that allows users to access files and directories located on remote computers and treat those files and directories as if they were local
 
 
-0.nfs server installation and configuration
+1.NFS server installation and configuration
 
 [for sever]
 
