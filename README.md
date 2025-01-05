@@ -1,9 +1,11 @@
 what is NFS
+
 The Network File System (NFS) is a mechanism for storing files on a network. It is a distributed file system that allows users to access files and directories located on remote computers and treat those files and directories as if they were local
 
-nfs server installation and configuration
 
-for sever
+0.nfs server installation and configuration
+
+[for sever]
 
 1.Update the System:
 
@@ -41,6 +43,8 @@ for sever
 8.Restart the NFS serve
 
  sudo systemctl restart nfs-kernel-server
+
+[for clint]
 
 9.Install NFS Client (on Client Machine)
 
