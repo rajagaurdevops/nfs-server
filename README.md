@@ -31,7 +31,8 @@ NFS should run using **private IP addresses** inside AWS.
 | Fast | ✅ Yes | ⚠️ Slower |
 | Suitable for NFS | ✅ Recommended | ❌ Not Recommended |
 
-👉 Use **Private IPs** because NFS is designed for internal networks, not public internet.
+👉 Use **AWS EC2 instances inside the same VPC (or via VPN / VPC Peering) should always use private IP addresses when mounting NFS.
+NFS is not designed for insecure or public internet connections.
 
 ---
 
@@ -52,3 +53,4 @@ Run on the server:
 ```bash
 sudo apt update
 sudo apt install nfs-kernel-server -y
+
