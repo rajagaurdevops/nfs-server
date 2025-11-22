@@ -1,72 +1,54 @@
-# what is NFS
-The Network File System (NFS) is a mechanism for storing files on a network. It is a distributed file system that allows users to access files and directories located on remote computers and treat those files and directories as if they were local
+# 🗂️ NFS Setup Guide on AWS EC2
 
+## 📌 Overview
 
-1.NFS server installation and configuration
+This guide explains how to install, configure, and mount an NFS (Network File System) share between two EC2 instances in AWS — one acting as the **NFS Server** and the other as the **NFS Client**.
 
-[for sever]
+---
 
-1.Update the System:
+## 🚀 Why Use NFS?
 
- Update the System && sudo apt upgrade -y
+While tools like `scp` let you copy files, they **do not provide shared storage**.  
+NFS allows:
 
-2.Install NFS Server
+- Multiple servers to access the **same directory**
+- Real-time shared storage for applications
+- Shared web content (WordPress, Apache, etc.)
+- Collaboration between distributed systems
 
- sudo apt install nfs-kernel-server -y
+NFS behaves like a shared network drive.
 
-3.create diretory whih you want to share with others 
+---
 
- sudo mkdir -p /mnt/nfs_share
+## 🔒 Private IP vs Public IP
 
-4.Set appropriate permissions (modify as needed)
+NFS should run using **private IP addresses** inside AWS.
 
- sudo chown nobody:nogroup /mnt/nfs_share
- sudo chmod 777 /mnt/nfs_share
+| Feature | Private IP | Public IP |
+|---------|-----------|-----------|
+| Visible on internet | ❌ No | ✅ Yes |
+| Secure | ✅ Yes | ⚠️ Risky |
+| Fast | ✅ Yes | ⚠️ Slower |
+| Suitable for NFS | ✅ Recommended | ❌ Not Recommended |
 
-5.Configure the Exported Directory
+👉 Use **Private IPs** because NFS is designed for internal networks, not public internet.
 
- sudo vim  /etc/exports
+---
 
-6.Add the following line to export the directory
+## 🏗️ Architecture
 
- /mnt/nfs_share *(rw,sync,no_subtree_check)
+| Component | Role |
+|----------|------|
+| EC2 Instance #1 | NFS Server |
+| EC2 Instance #2 | NFS Client |
+| Network | Both instances in the same VPC |
 
- rw: Stands for Read/Write.
- sync: Requires changes to be written to the disk before they are applied.
- No_subtree_check: Eliminates subtree checking
+---
 
-7.Apply the Configuration
+## 🛠️ Step 1 — Install & Configure NFS Server
 
- sudo exportfs -a
+Run on the server:
 
-8.Restart the NFS serve
-
- sudo systemctl restart nfs-kernel-server
-
-[for clint]
-
-9.Install NFS Client (on Client Machine)
-
- sudo apt install nfs-common -y
-
-10.Mount the NFS Share (on Client Machine)
-
- sudo mkdir -p /mnt/nfs_client
-
-11.Mount the NFS share
-
- sudo mount <server-ip>:/mnt/nfs_share /mnt/nfs_client
-
-13.Check mounted shares on the client
- 
- df -h
-
-sudo showmount -e serverip
-
-14.How to know if the port is running
-
-  sudo netstat -tuln | grep 2049
-  suod netstat -tuln | grep 111
-
-
-
+```bash
+sudo apt update
+sudo apt install nfs-kernel-server -y
