@@ -50,9 +50,75 @@ NFS is not designed for insecure or public internet connections.
 
 Run on the server:
 
-``
+```bash
 sudo apt update
 sudo apt install nfs-kernel-server -y
+```
+
+Create the shared directory:
+
+```bash
+sudo mkdir -p /srv/nfs/shared
+sudo chmod 777 /srv/nfs/shared
+```
+Edit the export configuration:
+
+```
+sudo nano /etc/exports
+```
+Add below line 
+
+```
+/srv/nfs/shared 192.168.1.0/24(rw,sync,no_subtree_check,no_root_squash)
+```
+
+Applying setting
+```
+sudo exportfs -a
+sudo systemctl restart nfs-kernel-server
+```
+
+### 💻 Step 3 — Install NFS Client
+
+install nfs client on client laptop
+
+```
+sudo apt update
+sudo apt install nfs-common -y
+```
+create a mount directory:
+
+```
+sudo mkdir -p /mnt/shared
+```
+
+🔗 Step 4 — Mount the NFS Share<br>
+Find server IP:
+```
+hostname -I
+```
+Mount using server IP:
+
+```
+sudo mount <SERVER-IP>:/srv/nfs/shared /mnt/shared
+```
+verify
+```
+df -h
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
