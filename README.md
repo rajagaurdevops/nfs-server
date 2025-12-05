@@ -50,7 +50,9 @@ NFS is not designed for insecure or public internet connections.
 
 Run on the server:
 
-```bash
+``
 sudo apt update
 sudo apt install nfs-kernel-server -y
+
+
 
